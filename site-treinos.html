@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta name="theme-color" content="#065f46"/>
+    <link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Cronogramas de Treino</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf4;
+        }
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex items-center justify-center min-h-screen">
+    <div class="container mx-auto max-w-6xl">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-emerald-800 mb-10 mt-6">
+            Meus Cronogramas de Treino
+        </h1>
+
+        <div class="flex justify-center gap-4 mb-8">
+            <button id="btnTreinoA" class="bg-emerald-700 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">
+                Treino Ollie
+            </button>
+            <button id="btnTreinoB" class="bg-emerald-500 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">
+                Treino Bibia
+            </button>
+        </div>
+
+        <div id="treinoA">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="textx-2xl font-bold text-emerald-700 mb-4 border-b-2 border-emerald-500 pb-2 w-full">Segunda-feira</h2>
+                    <ul class="list-disc list-inside text-lg text-gray-800 space-y-2">
+                        <li>Supino Inclinado</li>
+                        <li>Supino Reto</li>
+                        <li>Voador</li>
+                        <li>Dumbbell Press</li>
+                        <li>Elevação Frontal</li>
+                    </ul>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-4 border-b-2 border-emerald-500 pb-2 w-full">Terça-feira</h2>
+                    <ul class="list-disc list-inside text-lg text-gray-800 space-y-2">
+                        <li>Agachamento</li>
+                        <li>Afundo</li>
+                        <li>Adutora</li>
+                        <li>Extensora</li>
+                    </ul>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-4 border-b-2 border-emerald-500 pb-2 w-full">Quarta-feira</h2>
+                    <ul class="list-disc list-inside text-lg text-gray-800 space-y-2">
+                        <li>Puxada Alta Pegada Neutra</li>
+                        <li>Remada Máquina Unilateral</li>
+                        <li>Pulldown</li>
+                        <li>Voador Invertido</li>
+                        <li>Barra Fixa</li>
+                    </ul>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-4 border-b-2 border-emerald-500 pb-2 w-full">Quinta-feira</h2>
+                    <ul class="list-disc list-inside text-lg text-gray-800 space-y-2">
+                        <li>Flexora (cadeira)</li>
+                        <li>Mesa Flexora Unilateral</li>
+                        <li>Stiff</li>
+                        <li>Panturrilha</li>
+                        <li>Abdutora</li>
+                    </ul>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-4 border-b-2 border-emerald-500 pb-2 w-full">Sexta-feira</h2>
+                    <ul class="list-disc list-inside text-lg text-gray-800 space-y-2">
+                        <li>Elevação Lateral</li>
+                        <li>Desenvolvimento Máquina/Livre</li>
+                        <li>Tríceps Testa</li>
+                        <li>Tríceps Francês</li>
+                        <li>Rosca Martelo</li>
+                        <li>Rosca Scott</li>
+                    </ul>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-600 mb-4 border-b-2 border-emerald-400 pb-2 w-full">Sábado</h2>
+                    <p class="text-lg text-gray-700">Descanso ativo ou Aeróbico leve</p>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-600 mb-4 border-b-2 border-emerald-400 pb-2 w-full">Domingo</h2>
+                    <p class="text-lg text-gray-700">Corrida livre com a Bibia</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="treinoB" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-4 border-b-2 border-emerald-500 pb-2 w-full">Segunda-feira</h2>
+                    <ul class="list-disc list-inside text-lg text-gray-800 space-y-2">
+                        <li>Hack ou Smith</li>
+                        <li>Búlgaro</li>
+                        <li>Adutora</li>
+                        <li>Extensora</li>
+                    </ul>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-4 border-b-2 border-emerald-500 pb-2 w-full">Terça-feira</h2>
+                    <ul class="list-disc list-inside text-lg text-gray-800 space-y-2">
+                        <li>Puxada Alta Triângulo</li>
+                        <li>Remada Máquina</li>
+                        <li>Puxada Alta Invertida</li>
+                        <li>Rosca Martelo</li>
+                        <li>Rosca Scott</li>
+                    </ul>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-4 border-b-2 border-emerald-500 pb-2 w-full">Quarta-feira</h2>
+                    <ul class="list-disc list-inside text-lg text-gray-800 space-y-2">
+                        <li>Panturrilha Sentada</li>
+                        <li>Elevação Lateral</li>
+                        <li>Elevação Frontal</li>
+                        <li>Desenvolvimento Máquina</li>
+                        <li>Cardio 2h</li>
+                    </ul>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-4 border-b-2 border-emerald-500 pb-2 w-full">Quinta-feira</h2>
+                    <ul class="list-disc list-inside text-lg text-gray-800 space-y-2">
+                        <li>Stiff</li>
+                        <li>Flexora</li>
+                        <li>Elevação Pélvica</li>
+                        <li>Polia Cruzada</li>
+                        <li>Abdômen</li>
+                    </ul>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-4 border-b-2 border-emerald-500 pb-2 w-full">Sexta-feira</h2>
+                    <ul class="list-disc list-inside text-lg text-gray-800 space-y-2">
+                        <li>Supino Inclinado</li>
+                        <li>Supino Reto</li>
+                        <li>Voador / Crucifixo</li>
+                        <li>Tríceps Polia</li>
+                        <li>Tríceps Francês</li>
+                    </ul>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-600 mb-4 border-b-2 border-emerald-400 pb-2 w-full">Sábado</h2>
+                    <p class="text-lg text-gray-700">Descanso ativo ou Aeróbico leve</p>
+                </div>
+                <div class="card bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg p-6 flex flex-col items-center text-center">
+                    <h2 class="text-2xl font-bold text-emerald-600 mb-4 border-b-2 border-emerald-400 pb-2 w-full">Domingo</h2>
+                    <p class="text-lg text-gray-700">Corrida com Ollie</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Seleciona os elementos que vamos usar
+        const btnTreinoA = document.getElementById('btnTreinoA');
+        const btnTreinoB = document.getElementById('btnTreinoB');
+        const treinoA = document.getElementById('treinoA');
+        const treinoB = document.getElementById('treinoB');
+
+        // Função para atualizar a aparência dos botões
+        function atualizarBotoes(botaoAtivo) {
+            // Reseta os dois botões para o estilo inativo
+            btnTreinoA.classList.remove('bg-emerald-700');
+            btnTreinoA.classList.add('bg-emerald-500');
+            btnTreinoB.classList.remove('bg-emerald-700');
+            btnTreinoB.classList.add('bg-emerald-500');
+
+            // Aplica o estilo ativo ao botão correto
+            botaoAtivo.classList.remove('bg-emerald-500');
+            botaoAtivo.classList.add('bg-emerald-700');
+        }
+
+        // O que acontece ao clicar no botão A
+        btnTreinoA.addEventListener('click', () => {
+            treinoA.classList.remove('hidden'); // Mostra o treino A
+            treinoB.classList.add('hidden');   // Esconde o treino B
+            atualizarBotoes(btnTreinoA);       // Atualiza o estilo do botão
+        });
+
+        // O que acontece ao clicar no botão B
+        btnTreinoB.addEventListener('click', () => {
+            treinoA.classList.add('hidden');   // Esconde o treino A
+            treinoB.classList.remove('hidden'); // Mostra o treino B
+            atualizarBotoes(btnTreinoB);       // Atualiza o estilo do botão
+        });
+    </script>
+    <script>
+             if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js').then(registration => {
+                console.log('ServiceWorker registrado com sucesso: ', registration.scope);
+            }).catch(error => {
+                console.log('Falha ao registrar o ServiceWorker: ', error);
+            });
+        });
+    }
+    </script>
+</body>
+</html>
