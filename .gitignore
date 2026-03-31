@@ -1,0 +1,44 @@
+# ========================
+# Sistema Operacional
+# ========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ========================
+# Editores / IDEs
+# ========================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*.swo
+*~
+
+# ========================
+# Variáveis de ambiente
+# ========================
+.env
+.env.*
+!.env.example
+
+# ========================
+# Logs
+# ========================
+*.log
+logs/
+
+# ========================
+# Docker (runtime)
+# ========================
+# Arquivos gerados em runtime — Dockerfile e docker-compose.yml são versionados
+docker-compose.override.yml

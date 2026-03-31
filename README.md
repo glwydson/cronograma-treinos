@@ -1,61 +1,99 @@
-# Treinos
+# treinosOnline
 
-Site de cronograma de treinos com login, controle de exercícios por dia, séries, histórico e cronômetro por treino.
+Aplicação web de cronograma de treinos com autenticação de usuário, controle de exercícios, séries, histórico e cronômetro por treino.
 
-## Funcionalidades
+## Stack
 
-- Login com senha
-- Dois treinos separados (`Ollie` e `Bibia`)
-- Início/finalização de treino independentes por aba (podem rodar simultaneamente)
-- Check por exercício e controle de séries
-- Histórico separado por treino com:
-  - data
-  - quantidade de exercícios feitos
-  - tempo de treino
-- Modo claro/escuro com persistência
-- Reset automático diário dos checks/séries
-- Persistência local com `IndexedDB` + fallback em `localStorage`
+| Camada | Tecnologia |
+|---|---|
+| **Frontend** | React 18, Vite, Tailwind CSS, React Router v6 |
+| **Backend** | Node.js, Express, Mongoose |
+| **Banco de dados** | MongoDB |
+| **Auth** | JWT + bcrypt |
+| **Infra** | Docker + Docker Compose |
 
 ## Estrutura do projeto
 
-- `index.html` → entrada da aplicação
-- `styles.css` → estilos globais e temas
-- `app.js` → lógica da aplicação (UI, estado e persistência)
-- `manifest.json` → metadados PWA
-- `service-worker.json` → arquivo de cache offline (se usado no deploy)
-- `.gitignore` → arquivos/pastas ignorados no Git
+```
+cronograma-treinos/
+├── frontend/               # React + Vite + Tailwind
+│   ├── src/
+│   │   ├── pages/          # Login.jsx, Register.jsx
+│   │   ├── components/     # PrivateRoute.jsx
+│   │   └── services/       # api.js (axios)
+│   ├── nginx.conf
+│   └── Dockerfile
+├── backend/                # Node.js + Express
+│   ├── src/
+│   │   ├── models/         # User.js (Mongoose)
+│   │   ├── routes/         # auth.js
+│   │   └── middleware/     # authMiddleware.js (JWT)
+│   ├── .env.example
+│   └── Dockerfile
+└── docker-compose.yml      # 3 serviços: frontend, backend, mongodb
+```
 
-## Como usar
+## Como rodar
 
-1. Abra o arquivo `index.html` no navegador
-2. Faça login com a senha configurada no `app.js`:
-   - `SENHA_MESTRA = "19072024"`
-3. Selecione a aba de treino (`Ollie` ou `Bibia`)
-4. Clique em **Iniciar treino**
-5. Marque os exercícios e ajuste as séries
-6. Clique em **Finalizar treino** para salvar no histórico
+### Pré-requisitos
+- [Docker](https://docs.docker.com/get-docker/) instalado
 
-## Armazenamento de dados
+### 1. Clonar o repositório
+```bash
+git clone <url-do-repositorio>
+cd cronograma-treinos
+```
 
-A aplicação salva dados no próprio navegador:
+### 2. Configurar o contexto do Docker (uma vez só)
+```bash
+docker context use default
+```
 
-- `IndexedDB` (banco principal)
-  - `treinosDB`
-  - stores: `progresso`, `historico`
-- `localStorage` (fallback/estado auxiliar)
-  - tema (`modoTema`)
-  - treino ativo
-  - sessões em andamento
-  - data de reset diário
+### 3. Subir os serviços
+```bash
+docker compose up -d
+```
 
-## Observações
+### 4. Acessar
+| Serviço | URL |
+|---|---|
+| **Aplicação** | http://localhost:8181 |
+| **API health** | http://localhost:8181/api/health |
 
-- Os dados ficam salvos localmente no dispositivo/navegador.
-- Limpar dados do navegador pode apagar o histórico e progresso.
-- Para usar em produção, publique os arquivos estáticos em qualquer hospedagem (ex.: GitHub Pages, Netlify, Vercel).
+### Parar os serviços
+```bash
+docker compose down
+```
 
-## Próximas melhorias (opcional)
+### Ver logs
+```bash
+docker compose logs -f
+```
 
-- Exportar/importar backup do histórico (JSON)
-- Sincronização em nuvem (Firebase/Supabase)
+## Variáveis de ambiente
+
+Copie o arquivo de exemplo e ajuste os valores em produção:
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+| Variável | Descrição | Padrão |
+|---|---|---|
+| `PORT` | Porta do backend | `5000` |
+| `MONGODB_URI` | URI de conexão MongoDB | `mongodb://mongodb:27017/cronograma-treinos` |
+| `JWT_SECRET` | Chave secreta do JWT — **troque em produção** | `dev_secret_troque_em_producao` |
+| `JWT_EXPIRES_IN` | Expiração do token | `7d` |
+
+## Autenticação
+
+- Cadastro via `/register` — senha armazenada com **bcrypt (12 rounds)**
+- Login via `/login` — retorna **JWT com expiração de 7 dias**
+- Rotas protegidas validam o token via header `Authorization: Bearer <token>`
+
+## Próximas melhorias
+
+- Telas de treino (exercícios, séries, cronômetro)
+- Histórico de treinos por usuário
 - Estatísticas semanais/mensais
+- Exportar histórico em JSON
