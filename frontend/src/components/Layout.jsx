@@ -1,6 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
+import logo from '../assets/logo.png'
 
 export default function Layout({ children }) {
   const { user, logout } = useAuth()
@@ -25,7 +26,10 @@ export default function Layout({ children }) {
       <header className={`sticky top-0 z-40 backdrop-blur border-b ${modoClaro ? 'bg-white/80 border-black/10' : 'bg-black/80 border-white/10'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-6">
-            <span className={`font-extrabold text-lg ${modoClaro ? 'text-black' : 'text-white'}`}>🏋️ treinosOnline</span>
+            <span className={`font-extrabold text-lg ${modoClaro ? 'text-black' : 'text-white'}`}>
+              <img src={logo} alt="treinosOnline" className="h-8 w-8 inline-block mr-2 rounded-lg object-cover" />
+              treinosOnline
+            </span>
             <nav className="flex gap-4">
               <Link to="/treinos" className={linkClass('/treinos')}>Treinos</Link>
               <Link to="/circulo" className={linkClass('/circulo')}>Círculo</Link>

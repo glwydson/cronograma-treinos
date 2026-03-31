@@ -12,9 +12,9 @@ services:
     restart: unless-stopped
     environment:
       - PORT=5000
-      - MONGODB_URI=mongodb://mongodb:27017/cronograma-treinos
-      - JWT_SECRET=${JWT_SECRET:-dev_secret_troque_em_producao}
-      - JWT_EXPIRES_IN=7d
+      - MONGODB_URI=${MONGODB_URI:-mongodb://mongodb:27017/cronograma-treinos}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-7d}
     depends_on:
       - mongodb
     networks:

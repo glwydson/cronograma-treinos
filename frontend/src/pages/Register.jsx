@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../services/api'
+import logo from '../assets/logo.png'
 
 export default function Register() {
   const navigate = useNavigate()
@@ -40,7 +41,7 @@ export default function Register() {
     <div className="min-h-dvh flex items-center justify-center px-4">
       <div className="w-full max-w-sm bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl p-8">
         <div className="flex flex-col items-center mb-6">
-          <span className="text-5xl mb-3">🏋️</span>
+          <img src={logo} alt="treinosOnline" className="w-16 h-16 mb-3 rounded-2xl object-cover shadow-lg" />
           <h1 className="text-2xl font-bold tracking-tight text-white">Criar conta</h1>
           <p className="text-neutral-400 text-sm mt-1">Comece a registrar seus treinos</p>
         </div>

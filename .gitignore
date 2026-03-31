@@ -25,20 +25,62 @@ ehthumbs.db
 *~
 
 # ========================
-# Variáveis de ambiente
+# Variáveis de ambiente (NUNCA subir)
 # ========================
 .env
+.env.local
+.env.development
+.env.production
+.env.staging
 .env.*
 !.env.example
+
+# ========================
+# Dependências
+# ========================
+node_modules/
+.pnp
+.pnp.js
+
+# ========================
+# Build / Dist
+# ========================
+dist/
+build/
+.vite/
+*.tsbuildinfo
 
 # ========================
 # Logs
 # ========================
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 logs/
+
+# ========================
+# Cache
+# ========================
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
 
 # ========================
 # Docker (runtime)
 # ========================
-# Arquivos gerados em runtime — Dockerfile e docker-compose.yml são versionados
 docker-compose.override.yml
+
+# ========================
+# Cobertura de testes
+# ========================
+coverage/
+*.lcov
+
+# ========================
+# Misc
+# ========================
+*.pid
+*.seed
+*.pid.lock

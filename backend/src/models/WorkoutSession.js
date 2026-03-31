@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const workoutSessionSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  tipo: { type: String, enum: ['A', 'B'], required: true },
+  tipo: { type: String, required: true },
   data: { type: String, required: true },
   iniciadoEm: { type: Date, required: true },
   finalizadoEm: { type: Date, required: true },
