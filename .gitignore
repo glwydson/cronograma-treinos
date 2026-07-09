@@ -1,0 +1,86 @@
+# ========================
+# Sistema Operacional
+# ========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ========================
+# Editores / IDEs
+# ========================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*.swo
+*~
+
+# ========================
+# Variáveis de ambiente (NUNCA subir)
+# ========================
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.*
+!.env.example
+
+# ========================
+# Dependências
+# ========================
+node_modules/
+.pnp
+.pnp.js
+
+# ========================
+# Build / Dist
+# ========================
+dist/
+build/
+.vite/
+*.tsbuildinfo
+
+# ========================
+# Logs
+# ========================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+
+# ========================
+# Cache
+# ========================
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+
+# ========================
+# Docker (runtime)
+# ========================
+docker-compose.override.yml
+
+# ========================
+# Cobertura de testes
+# ========================
+coverage/
+*.lcov
+
+# ========================
+# Misc
+# ========================
+*.pid
+*.seed
+*.pid.lock
