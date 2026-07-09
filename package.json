@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "cronograma-treinos-backend": "file:backend",
+    "cronograma-treinos-frontend": "file:frontend"
+  },
+  "allowScripts": {
+    "esbuild@0.21.5": true
+  }
+}

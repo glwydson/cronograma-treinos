@@ -34,6 +34,12 @@ export default function Treinos() {
   const [showNewPlanForm, setShowNewPlanForm] = useState(false)
   const [newPlanName, setNewPlanName] = useState('')
   const [creating, setCreating] = useState(false)
+  const [editandoNome, setEditandoNome] = useState(false)
+  const [novoNome, setNovoNome] = useState('')
+  const [showAddDia, setShowAddDia] = useState(false)
+  const [novoDia, setNovoDia] = useState('Segunda')
+  const [novoExercicio, setNovoExercicio] = useState('')
+  const [diaExpandido, setDiaExpandido] = useState(null)
   const timerRef = useRef(null)
 
   useEffect(() => {
@@ -162,6 +168,65 @@ export default function Treinos() {
     finally { setCreating(false) }
   }
 
+   async function renomearPlano(e) {
+    e.preventDefault()
+    if (!novoNome.trim()) return
+    try {
+      const res = await api.put(`/workouts/${activePlanId}`, { name: novoNome.trim(), days: activePlan.days })
+      setPlans(prev => prev.map(p => p._id === activePlanId ? res.data : p))
+      setEditandoNome(false)
+    } catch (err) { console.error(err) }
+  }
+
+  async function adicionarDia(e) {
+    e.preventDefault()
+    if (activePlan.days.find(d => d.dia === novoDia)) {
+      alert('Esse dia já existe no treino.')
+      return
+    }
+    const novosDias = [...activePlan.days, { dia: novoDia, exercicios: [], nota: false }]
+    try {
+      const res = await api.put(`/workouts/${activePlanId}`, { name: activePlan.name, days: novosDias })
+      setPlans(prev => prev.map(p => p._id === activePlanId ? res.data : p))
+      setShowAddDia(false)
+    } catch (err) { console.error(err) }
+  }
+
+  async function adicionarExercicio(e, diaAlvo) {
+    e.preventDefault()
+    if (!novoExercicio.trim()) return
+    const novosDias = activePlan.days.map(d => {
+      if (d.dia !== diaAlvo) return d
+      return { ...d, exercicios: [...d.exercicios, novoExercicio.trim()] }
+    })
+    try {
+      const res = await api.put(`/workouts/${activePlanId}`, { name: activePlan.name, days: novosDias })
+      setPlans(prev => prev.map(p => p._id === activePlanId ? res.data : p))
+      setNovoExercicio('')
+    } catch (err) { console.error(err) }
+  }
+
+  async function removerExercicio(diaAlvo, exIndex) {
+    const novosDias = activePlan.days.map(d => {
+      if (d.dia !== diaAlvo) return d
+      return { ...d, exercicios: d.exercicios.filter((_, i) => i !== exIndex) }
+    })
+    try {
+      const res = await api.put(`/workouts/${activePlanId}`, { name: activePlan.name, days: novosDias })
+      setPlans(prev => prev.map(p => p._id === activePlanId ? res.data : p))
+    } catch (err) { console.error(err) }
+  }
+
+  async function removerDia(diaAlvo) {
+    if (!confirm(`Remover o dia "${diaAlvo}" e todos os exercícios?`)) return
+    const novosDias = activePlan.days.filter(d => d.dia !== diaAlvo)
+    try {
+      const res = await api.put(`/workouts/${activePlanId}`, { name: activePlan.name, days: novosDias })
+      setPlans(prev => prev.map(p => p._id === activePlanId ? res.data : p))
+    } catch (err) { console.error(err) }
+  }
+
+
   function getContador() {
     const s = andamento[activePlanId]
     if (!s) return '00:00'
@@ -269,6 +334,25 @@ export default function Treinos() {
           <div className={`${cardClass} mb-6`}>
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <div>
+{editandoNome ? (
+                  <form onSubmit={renomearPlano} className="flex gap-2 mb-1">
+                    <input
+                      autoFocus
+                      value={novoNome}
+                      onChange={e => setNovoNome(e.target.value)}
+                      className={`rounded-lg px-3 py-1 border text-sm focus:outline-none ${light ? 'bg-white border-black/20 text-black' : 'bg-zinc-900 border-white/20 text-white'}`}
+                    />
+                    <button type="submit" className={`text-xs font-bold px-3 py-1 rounded-lg ${light ? 'bg-black text-white' : 'bg-white text-black'}`}>Salvar</button>
+                    <button type="button" onClick={() => setEditandoNome(false)} className={`text-xs px-3 py-1 rounded-lg border ${light ? 'border-black/15 text-zinc-600' : 'border-white/15 text-zinc-400'}`}>Cancelar</button>
+                  </form>
+                ) : (
+                  <button
+                    onClick={() => { setNovoNome(activePlan.name); setEditandoNome(true) }}
+                    className={`text-xs mb-1 underline underline-offset-2 ${subtext} hover:opacity-70`}
+                  >
+                    ✏️ Renomear treino
+                  </button>
+                )}
                 <p className={`text-sm font-semibold ${subtext}`}>
                   {andamento[activePlanId] ? `${activePlan.name} em andamento` : `${activePlan.name} parado`}
                 </p>
@@ -290,10 +374,36 @@ export default function Treinos() {
           </div>
 
           {/* Dias do plano */}
+<div className="mb-4">
+            <button
+              onClick={() => setShowAddDia(v => !v)}
+              className={`text-sm font-semibold px-4 py-2 rounded-xl border transition ${light ? 'border-black/20 text-zinc-700 hover:border-black/40' : 'border-white/20 text-zinc-300 hover:border-white/40'}`}
+            >
+              ＋ Adicionar dia
+            </button>
+
+            {showAddDia && (
+              <form onSubmit={adicionarDia} className="flex gap-2 mt-3">
+                <select
+                  value={novoDia}
+                  onChange={e => setNovoDia(e.target.value)}
+                  className={`rounded-xl px-3 py-2 border text-sm focus:outline-none ${light ? 'bg-white border-black/20 text-black' : 'bg-zinc-900 border-white/20 text-white'}`}
+                >
+                  {['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'].map(d => (
+                    <option key={d}>{d}</option>
+                  ))}
+                </select>
+                <button type="submit" className={`font-bold px-5 py-2 rounded-xl text-sm ${light ? 'bg-black text-white' : 'bg-white text-black'}`}>Adicionar</button>
+                <button type="button" onClick={() => setShowAddDia(false)} className={`px-4 py-2 rounded-xl border text-sm ${light ? 'border-black/15 text-zinc-600' : 'border-white/15 text-zinc-400'}`}>Cancelar</button>
+              </form>
+            )}
+          </div>
+
+          {/* Dias do plano */}
           {activePlan.days.length === 0 ? (
             <div className={`${cardClass} text-center py-10 mb-6`}>
               <p className={`text-sm ${subtext}`}>Este treino ainda não tem dias configurados.</p>
-              <p className={`text-xs mt-1 ${subtext}`}>Em breve: editar exercícios pela interface.</p>
+              <p className={`text-xs mt-1 ${subtext}`}>Use o botão acima para adicionar o primeiro dia.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8">
@@ -301,10 +411,19 @@ export default function Treinos() {
                 const feitos = item.exercicios.filter(ex => progresso[chaveExercicio(activePlanId, item.dia, ex)]?.feito).length
                 return (
                   <div key={idx} className={`relative rounded-2xl p-4 sm:p-6 border shadow card ${light ? 'bg-white border-black/10' : 'bg-gradient-to-br from-zinc-900 to-black border-white/10'}`}>
-                    <h2 className={`text-xl font-bold mb-1 border-b pb-2 ${light ? 'text-black border-black/20' : 'text-white border-white/20'}`}>{item.dia}</h2>
+                    <div className="flex items-center justify-between border-b pb-2 mb-1">
+                      <h2 className={`text-xl font-bold ${light ? 'text-black border-black/20' : 'text-white border-white/20'}`}>{item.dia}</h2>
+                      <button
+                        onClick={() => removerDia(item.dia)}
+                        className={`text-xs opacity-30 hover:opacity-80 transition ${light ? 'text-red-600' : 'text-red-400'}`}
+                        title="Remover dia"
+                      >
+                        🗑
+                      </button>
+                    </div>
                     <p className={`text-xs mb-3 font-semibold ${subtext}`}>Concluídos: {feitos}/{item.exercicios.length}</p>
                     <ul className="space-y-2">
-                      {item.exercicios.map(ex => {
+                      {item.exercicios.map((ex, exIdx) => {
                         const k = chaveExercicio(activePlanId, item.dia, ex)
                         const estado = getEstado(k)
                         return (
@@ -322,12 +441,40 @@ export default function Treinos() {
                                   onChange={e => setSeries(k, e.target.value)}
                                   className={`series-input w-14 text-center border rounded-lg py-1 px-1 text-sm focus:outline-none ${light ? 'bg-white border-black/20 text-black' : 'bg-black/60 border-white/20 text-white'}`}
                                 />
+                                <button
+                                  onClick={() => removerExercicio(item.dia, exIdx)}
+                                  className={`text-xs opacity-40 hover:opacity-100 transition ${light ? 'text-red-600' : 'text-red-400'}`}
+                                  title="Remover exercício"
+                                >
+                                  ✕
+                                </button>
                               </div>
                             </div>
                           </li>
                         )
                       })}
                     </ul>
+
+                    {diaExpandido === item.dia ? (
+                      <form onSubmit={e => adicionarExercicio(e, item.dia)} className="mt-3 flex gap-2">
+                        <input
+                          autoFocus
+                          value={novoExercicio}
+                          onChange={e => setNovoExercicio(e.target.value)}
+                          placeholder="Ex: Supino reto 4x10 - 40kg"
+                          className={`flex-1 rounded-lg px-3 py-1.5 border text-xs focus:outline-none ${light ? 'bg-white border-black/20 text-black placeholder-zinc-400' : 'bg-zinc-900 border-white/20 text-white placeholder-zinc-500'}`}
+                        />
+                        <button type="submit" className={`text-xs font-bold px-3 py-1.5 rounded-lg ${light ? 'bg-black text-white' : 'bg-white text-black'}`}>OK</button>
+                        <button type="button" onClick={() => setDiaExpandido(null)} className={`text-xs px-2 py-1.5 rounded-lg border ${light ? 'border-black/15 text-zinc-500' : 'border-white/15 text-zinc-400'}`}>✕</button>
+                      </form>
+                    ) : (
+                      <button
+                        onClick={() => { setDiaExpandido(item.dia); setNovoExercicio('') }}
+                        className={`mt-3 text-xs font-semibold ${light ? 'text-zinc-500 hover:text-black' : 'text-zinc-500 hover:text-white'} transition`}
+                      >
+                        ＋ exercício
+                      </button>
+                    )}
                   </div>
                 )
               })}
